@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class intakeSubsystem extends SubsystemBase {
 
+
     private static DcMotorEx slideMotor;
 
     private static Servo openClose;
