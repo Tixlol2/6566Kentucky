@@ -4,7 +4,6 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDController;
-import com.arcrobotics.ftclib.controller.PIDFController;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -32,8 +31,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
     private static int motorPos = 0;
 
-    private static int targetMin = 0;
-    private static int targetMax = 1000;
+    public static int targetMin = 0;
+    public static int targetMax = 1000;
 
     private static double power = 0;
 
@@ -77,24 +76,20 @@ public class IntakeSubsystem extends SubsystemBase {
         extendController.setPID(kP, kI, kD);
     }
 
-    public void intakeClawClose(){
+    public void clawClose(){
         openCloseTarget = 1;
     }
-    public void intakeClawOpen(){
+    public void clawOpen(){
         openCloseTarget = 0;
     }
-    public void intakeClawUp(){
+    public void clawTransfer(){
         upDownTarget = 1;
     }
-    public void intakeClawDown(){
+    public void clawDown(){
         upDownTarget = 0;
     }
-    public void intakeClawParallel(){
-        upDownTarget = 1;
-    }
-    public void intakeClawPerpendicular(){
-        upDownTarget = 0;
-    }
+    public void turnClaw(double pos){leftRightTarget = pos;}
+    public void clawVertCustom(double pos){upDownTarget = pos;}
 
     public void setExtensionTarget(int target){extensionTarget = target;}
 

@@ -4,7 +4,6 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDController;
-import com.arcrobotics.ftclib.controller.PIDFController;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -51,6 +50,7 @@ public class OuttakeSubsystem extends SubsystemBase {
         slideMotorRight = hMap.get(DcMotorEx.class, "ORM");
         slideMotorLeft = hMap.get(DcMotorEx.class, "OLM");
 
+        slideMotorRight.setDirection(DcMotorSimple.Direction.FORWARD);
         slideMotorLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         angleLeft = hMap.get(Servo.class, "OLS");
@@ -88,24 +88,13 @@ public class OuttakeSubsystem extends SubsystemBase {
 
     }
 
-    public void intakeClawClose(){
+    public void clawClose(){
         openCloseTarget = 1;
     }
-    public void intakeClawOpen(){
+    public void clawOpen(){
         openCloseTarget = 0;
     }
-    public void intakeClawUp(){
-        angleTarget = 1;
-    }
-    public void intakeClawDown(){
-        angleTarget = 0;
-    }
-    public void intakeClawParallel(){
-        angleTarget = 1;
-    }
-    public void intakeClawPerpendicular(){
-        angleTarget = 0;
-    }
+    public void turnClaw(double pos){leftRightTarget = pos;}
     public void setExtensionTarget(int target){extensionTarget = target;}
 
     public void TelemetryTesting(MultipleTelemetry tele){
@@ -124,6 +113,8 @@ public class OuttakeSubsystem extends SubsystemBase {
 
 
     }
+
+    public void Transfer(){}
 
 
 }

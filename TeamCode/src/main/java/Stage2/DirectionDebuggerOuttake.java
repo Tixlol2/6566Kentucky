@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@Disabled
+
 @TeleOp(name = "Direction Debugger Outtake", group = "Debugger")
 public class DirectionDebuggerOuttake extends LinearOpMode {
 
