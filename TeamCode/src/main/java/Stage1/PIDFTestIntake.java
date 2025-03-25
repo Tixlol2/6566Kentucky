@@ -12,7 +12,7 @@ import Stage2.OuttakeSubsystem;
 
 @TeleOp(name = "PIDFTesting Intake", group = "Real TeleOP")
 @Config
-@Disabled
+
 public class PIDFTestIntake extends LinearOpMode {
 
     Follower follower;

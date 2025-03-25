@@ -21,7 +21,7 @@ public class DirectionDebuggerIntake extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        slideMotor = hardwareMap.get(DcMotorEx.class, "ORM");
+        slideMotor = hardwareMap.get(DcMotorEx.class, "ISM");
 
         slideMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 

@@ -92,6 +92,8 @@ public class OuttakeSubsystem extends SubsystemBase {
     public void clawOpen(){openCloseTarget = .05;}
     public void turnClaw(double pos){leftRightTarget = pos;}
     public void setTargetAngle(double position){angleTarget = position;}
+    public double getTwist(){return leftRightTarget;}
+
     public void setExtensionTarget(int target){extensionTarget = target;}
 
     public void TelemetryTesting(MultipleTelemetry tele){
