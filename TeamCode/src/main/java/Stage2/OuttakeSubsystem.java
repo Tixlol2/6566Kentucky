@@ -80,7 +80,7 @@ public class OuttakeSubsystem extends SubsystemBase {
         slideMotorLeft.setPower(power);
 
         openClose.setPosition(openCloseTarget);
-        angleLeft.setPosition(-angleTarget);
+        angleLeft.setPosition(1-angleTarget);
         angleRight.setPosition(angleTarget);
         leftRight.setPosition(leftRightTarget);
 
@@ -88,13 +88,12 @@ public class OuttakeSubsystem extends SubsystemBase {
 
     }
 
-    public void clawClose(){
-        openCloseTarget = 1;
-    }
+    public void clawClose(double temp){openCloseTarget = temp;} //////Finding
     public void clawOpen(){
-        openCloseTarget = 0;
+        openCloseTarget = .1;
     }
     public void turnClaw(double pos){leftRightTarget = pos;}
+    public void setTargetAngle(double position){angleTarget = position;}
     public void setExtensionTarget(int target){extensionTarget = target;}
 
     public void TelemetryTesting(MultipleTelemetry tele){

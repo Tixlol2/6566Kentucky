@@ -9,7 +9,7 @@ import Stage2.OuttakeSubsystem;
 import pedroPathing.constants.FConstants;
 import pedroPathing.constants.LConstants;
 
-@TeleOp(name = "Drive", group = "Real TeleOP")
+@TeleOp(name = "HipsterDrive", group = "Real TeleOP")
 public class drive extends LinearOpMode {
 
     Follower follower;
@@ -31,6 +31,9 @@ public class drive extends LinearOpMode {
         while(opModeInInit()){
             //Init Loop
 
+            //Values to keep the robot from snapping
+            intake.clawVertCustom(.25);
+            outtake.setTargetAngle(.5);
 
 
         }
@@ -40,7 +43,9 @@ public class drive extends LinearOpMode {
             //run loop
             double deflator = gamepad2.left_bumper ? .5 : 1;
 
+            // TODO ACTUAL CODE
             //Intake
+            /*
             if(gamepad2.a){
                 intake.clawOpen();
                 intake.clawDown();
@@ -49,17 +54,18 @@ public class drive extends LinearOpMode {
                 intake.clawClose();
                 intake.clawTransfer();
             }
-
+             */
             //First should be perpendicular
             //Second should be parallel
             if(gamepad2.right_bumper){intake.turnClaw(1);}
             else if (gamepad2.left_bumper){intake.turnClaw(0);}
 
-            //Outtake
-            if(gamepad2.b){
+            //TODO Find Close values and update gamepad1's actual code
+            //Outtake  ////////////TEMPORARY
+            if(gamepad1.b){
                 outtake.clawOpen();
             }
-            else{outtake.clawClose();}
+            else{outtake.clawClose(gamepad1.right_trigger);}
 
             //First should be perpendicular
             //Second should be parallel
