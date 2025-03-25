@@ -35,7 +35,7 @@ public class OuttakeSubsystem extends SubsystemBase {
     private int motorPos = 0;
 
     public static int targetMin = 0;
-    public static int targetMax = 1000;
+    public static int targetMax = 3000;
 
     private double power = 0;
 
@@ -88,10 +88,8 @@ public class OuttakeSubsystem extends SubsystemBase {
 
     }
 
-    public void clawClose(){openCloseTarget = .3;} //////Finding
-    public void clawOpen(){
-        openCloseTarget = .1;
-    }
+    public void clawClose(){openCloseTarget = .305;} //////Finding
+    public void clawOpen(){openCloseTarget = .05;}
     public void turnClaw(double pos){leftRightTarget = pos;}
     public void setTargetAngle(double position){angleTarget = position;}
     public void setExtensionTarget(int target){extensionTarget = target;}
