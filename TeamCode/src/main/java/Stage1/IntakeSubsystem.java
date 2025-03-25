@@ -40,7 +40,7 @@ public class IntakeSubsystem extends SubsystemBase {
     private static double openCloseTarget = .25;
     private static double leftRightTarget = .48;
     private static double upDownTarget;
-    private static boolean manual;
+    private static boolean manual = true;
 
 
     public IntakeSubsystem(HardwareMap hMap){
@@ -97,39 +97,42 @@ public class IntakeSubsystem extends SubsystemBase {
     public void turnClawAdd(double plus){turnClaw(leftRightTarget + plus);}
     public void clawVertCustom(double pos){upDownTarget = pos;}
     public int getMotorPos(){return motorPos;}
+    public void automatic(){manual=false;}
 
-    //Ethan's Extension Methods
+    //Ethan's Extension Methods (x2)
     public void sliding(boolean manual, double pow){
         this.manual = manual;
         if (manual) {
-            slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            slideMotor.setPower(.2*pow);
-        } else {
-            slideMotor.setPower(0);
+            if (motorPos > 20 && pow < 0 || motorPos < 400 && pow > 0) {
+                slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                slideMotor.setPower(.2 * pow);
+            } else {
+                slideMotor.setPower(0);
+            }
         }
     }
-
     private static double SmoothPow(double currentPower, double targetPower, double smoothingFactor) {
         smoothingFactor = Math.min(Math.max(smoothingFactor, 0.0), 1);
         return currentPower + (targetPower - currentPower) * smoothingFactor;
     }
     public void runTo(int pos, int start, double pow) {
-        double sign;
-        if (pos != motorPos) {
-            sign = (pos - motorPos) / Math.abs(pos - motorPos);
-        }
-        else {
-            sign = 0;
-        }
-        if (Math.abs(((double)pos - start) / 2 ) > Math.abs(motorPos - start)) {
-            power = SmoothPow(power, pow, .25) * (sign);
-        }
-        else {
-            power = SmoothPow(power, 0, .25) * (sign);
+        if (!manual) {
+            double sign;
+            if (pos != motorPos) {
+                sign = (pos - motorPos) / Math.abs(pos - motorPos);
+            } else {
+                sign = 0;
+            }
+
+            if (Math.abs(((double) pos - start) / 2) > Math.abs(motorPos - start)) {
+                power = SmoothPow(power, pow, .25) * (sign);
+            } else {
+                power = SmoothPow(power, 0, .25) * (sign);
+            }
         }
     }
 
-    //Noah's Extension Method
+    //Noah's Extension Method (x1)
     //public void setExtensionTarget(int target){extensionTarget = target;}
 
     public void TelemetryTesting(MultipleTelemetry tele){

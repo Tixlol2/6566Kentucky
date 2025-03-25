@@ -70,6 +70,14 @@ public void runOpMode() throws InterruptedException {
         intake.sliding(gamepad1.right_trigger > 0, gamepad1.right_trigger);
         intake.sliding(gamepad1.left_trigger > 0, -1*gamepad1.left_trigger);
 
+        intake.runTo(intakeExtendTarget, intake.getMotorPos(), .3);
+
+        if (gamepad1.right_bumper) {
+            intakeExtendTarget = 40;
+            intake.automatic();
+        }
+
+
 
 
         //Outtake
