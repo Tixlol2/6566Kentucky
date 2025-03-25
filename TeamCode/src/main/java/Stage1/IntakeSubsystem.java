@@ -36,8 +36,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
     private static double power = 0;
 
-    private static double openCloseTarget;
-    private static double leftRightTarget;
+    private static double openCloseTarget = .25;
+    private static double leftRightTarget = .48;
     private static double upDownTarget;
 
 
@@ -76,19 +76,12 @@ public class IntakeSubsystem extends SubsystemBase {
         extendController.setPID(kP, kI, kD);
     }
 
-    public void clawClose(){
-        openCloseTarget = 1;
-    }
-    public void clawOpen(){
-        openCloseTarget = 0;
-    }
-    public void clawTransfer(){
-        upDownTarget = 1;
-    }
-    public void clawDown(){
-        upDownTarget = 0;
-    }
-    public void turnClaw(double pos){leftRightTarget = pos;}
+    public void clawClose(){openCloseTarget = .58;}
+    public void clawOpen(){openCloseTarget = .25;}
+    public void clawTransfer(){upDownTarget = 0;}
+    public void clawDown(){upDownTarget = .47;}
+    public void turnClaw(double pos){leftRightTarget = Math.max(Math.min(.87, pos), .2);}
+    public void turnClawAdd(double plus){turnClaw(leftRightTarget + plus);}
     public void clawVertCustom(double pos){upDownTarget = pos;}
 
     public void setExtensionTarget(int target){extensionTarget = target;}

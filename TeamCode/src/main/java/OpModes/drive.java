@@ -33,8 +33,10 @@ public class drive extends LinearOpMode {
 
             //Values to keep the robot from snapping
             intake.clawVertCustom(.25);
-            outtake.setTargetAngle(.5);
+            intake.turnClaw(.48);
 
+            outtake.setTargetAngle(.5);
+            outtake.turnClaw(.5);
 
         }
 
@@ -43,29 +45,24 @@ public class drive extends LinearOpMode {
             //run loop
             double deflator = gamepad2.left_bumper ? .5 : 1;
 
-            // TODO ACTUAL CODE
             //Intake
-            /*
-            if(gamepad2.a){
-                intake.clawOpen();
-                intake.clawDown();
-            }
-            else{
-                intake.clawClose();
-                intake.clawTransfer();
-            }
-             */
+            if(gamepad1.x){intake.clawDown();}
+            else if (gamepad1.y){intake.clawTransfer();}
+
+            if(gamepad1.b){intake.clawClose();}
+            else if (gamepad1.a){intake.clawOpen();}
+
+            if (gamepad1.dpad_left) {intake.turnClawAdd(-.01);}
+            else if (gamepad1.dpad_right) {intake.turnClawAdd(+.01);}
+            else if (gamepad1.dpad_down) {intake.turnClaw(.23);}
+
+
+            //Outtake
+
             //First should be perpendicular
             //Second should be parallel
             if(gamepad2.right_bumper){intake.turnClaw(1);}
             else if (gamepad2.left_bumper){intake.turnClaw(0);}
-
-            //TODO Find Close values and update gamepad1's actual code
-            //Outtake  ////////////TEMPORARY
-            if(gamepad1.b){
-                outtake.clawOpen();
-            }
-            else{outtake.clawClose(gamepad1.right_trigger);}
 
             //First should be perpendicular
             //Second should be parallel
@@ -75,6 +72,15 @@ public class drive extends LinearOpMode {
 
 
 
+            //TODO Find vert up & down poses
+            if (gamepad1.right_trigger != 0) {
+                intake.turnClaw(.25 + gamepad1.right_trigger);
+                telemetry.addLine(String.valueOf(gamepad1.right_trigger +.5));
+            }
+            else if (gamepad1.left_trigger != 0) {
+                intake.turnClaw(.25 - gamepad1.left_trigger);
+                telemetry.addLine(String.valueOf(.5 - gamepad1.left_trigger));
+            }
 
 
 
@@ -86,6 +92,10 @@ public class drive extends LinearOpMode {
 
 
 
+
+
+
+            //TODO Repalce sticks with triggers
             outtakeExtendTarget += (int) (Math.pow(gamepad2.right_stick_y, 3) * -24 * deflator);
             intakeExtendTarget += (int) (Math.pow(gamepad2.left_stick_y, 3) * -12 * deflator);
 
@@ -100,6 +110,7 @@ public class drive extends LinearOpMode {
             follower.update();
 
 
+            telemetry.update();
         }
 
 

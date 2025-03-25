@@ -88,7 +88,7 @@ public class OuttakeSubsystem extends SubsystemBase {
 
     }
 
-    public void clawClose(double temp){openCloseTarget = temp;} //////Finding
+    public void clawClose(){openCloseTarget = .3;} //////Finding
     public void clawOpen(){
         openCloseTarget = .1;
     }
