@@ -66,14 +66,17 @@ public class Auton extends OpMode {
         switch(pathState){
 
             case -1:
-                telemetry.addLine("Auton has Finished! (Hopefully successfully)");
+                telemetry.addLine("Auton Has Finished! (Hopefully Successfully)");
             case 0:
                 follower.followPath(startToScore);
+                outtake.setTargetAngle(.5);
                 setPathState(1);
                 break;
             case 1:
                 if(!follower.isBusy()){
                     //score
+
+                    outtake.clawOpen();
                     follower.followPath(scoreToPark);
                     setPathState(2);
                 }
@@ -81,6 +84,8 @@ public class Auton extends OpMode {
                 //Set angle of lever to grab spec
                 if(!follower.isBusy()){
                     //grab 2nd specimen
+
+                    outtake.clawClose();
                     follower.followPath(parkToScore);
                     setPathState(3);
                 }
