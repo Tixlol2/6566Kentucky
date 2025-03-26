@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDController;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -97,8 +98,8 @@ public class OuttakeSubsystem extends SubsystemBase {
     public void updateExtensionTarget(){
         slideMotorRight.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         slideMotorLeft.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        slideMotorRight.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        slideMotorLeft.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        slideMotorRight.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        slideMotorLeft.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
     }
     public void setExtensionTarget(int target){extensionTarget = target;}
 

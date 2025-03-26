@@ -23,7 +23,7 @@ int intakeExtendTarget = 0;
 @Override
 public void runOpMode() throws InterruptedException {
 
-    follower = new Follower(hardwareMap);
+    follower = new Follower(hardwareMap,LConstants.class,FConstants.class);
     intake = new IntakeSubsystem(hardwareMap);
     outtake = new OuttakeSubsystem(hardwareMap);
 
@@ -34,7 +34,9 @@ public void runOpMode() throws InterruptedException {
         //Values to keep the robot from snapping
         intake.clawVertCustom(.25);
         intake.turnClaw(.48);
-        outtake.turnClaw(.472);
+        outtake.turnClaw(0.05);
+        //outtake.turnClaw(0.78);
+
         outtake.setTargetAngle(.5);
 
     }
@@ -97,9 +99,15 @@ public void runOpMode() throws InterruptedException {
             outtake.clawOpen();
         }
 
-        if (gamepad2.dpad_right) {outtake.setTargetAngle(.5);
-        } else if (gamepad2.y) {outtake.setTargetAngle(.68);
-        } else if (gamepad2.a) {outtake.setTargetAngle(.015);}
+        if(gamepad2.x){outtake.turnClaw(0.05);}
+        else if (gamepad2.b){outtake.turnClaw(.78);}
+
+        if (gamepad2.dpad_right) {outtake.setTargetAngle(.5);}
+        else if (gamepad2.y) {outtake.setTargetAngle(.68);}
+        else if (gamepad2.a) {outtake.setTargetAngle(.031);}//.035
+        else if (gamepad2.right_stick_button) {outtake.setTargetAngle(.925);}//.15
+        else if (gamepad2.left_stick_button) {outtake.setTargetAngle(.075);}
+
 
         if (gamepad2.b) {outtake.turnClaw(.472);}
         else if (gamepad2.x) {outtake.turnClaw(.123);}
