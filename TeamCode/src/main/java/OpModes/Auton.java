@@ -36,9 +36,11 @@ public class Auton extends OpMode {
 
 
     //TODO: SET ALL OF THESE TO BE ACCURATE
-    double prepScoreArmPosition = .5;
-    double scoreArmPosition = .5;
-    double pickupArmPosition = .5;
+    double prepScoreArmPosition = .09;
+    double scoreArmPosition = .075;
+    double pickupArmPosition = .925;
+
+    int scoreExtendPosition = -123545123;
 
     double scoreClawPosition = .5;
     double pickupClawPosition = .5;
@@ -102,7 +104,9 @@ public class Auton extends OpMode {
                     setPathState(3);
                 } else {
                     outtake.setTargetAngle(pickupArmPosition);
-                    outtake.turnClaw(pickupClawPosition);
+                    if(pathTimer.getElapsedTime() > 200) {
+                        outtake.turnClaw(pickupClawPosition);
+                    }
                 }
             case 3:
                 //Set angle of lever to score spec
@@ -116,7 +120,9 @@ public class Auton extends OpMode {
                     }
                 } else {
                     outtake.setTargetAngle(prepScoreArmPosition);
+                    if(pathTimer.getElapsedTime() > 200){
                     outtake.turnClaw(scoreClawPosition);
+                    }
                 }
         }
     }
@@ -136,6 +142,24 @@ public class Auton extends OpMode {
         follower.setStartingPose(startPose);
         buildPaths();
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+
+        outtake.setTargetAngle(prepScoreArmPosition);
+        outtake.turnClaw(scoreClawPosition);
+        outtake.clawClose();
+
+        intake.setExtensionTarget(10);
+
+    }
+
+    @Override
+    public void init_loop(){
+
+        intake.update();
+        outtake.update();
+        follower.updatePose();
+        telemetry.update();
+
+
     }
 
     @Override
