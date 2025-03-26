@@ -42,6 +42,7 @@ public class OuttakeSubsystem extends SubsystemBase {
     public static double openCloseTarget = 0;
     public static double leftRightTarget = 0;
     public static double angleTarget = 0;
+    public static int extensionTrim = 0;
 
 
     public OuttakeSubsystem(HardwareMap hMap){
@@ -93,7 +94,12 @@ public class OuttakeSubsystem extends SubsystemBase {
     public void turnClaw(double pos){leftRightTarget = pos;}
     public void setTargetAngle(double position){angleTarget = position;}
     public double getTwist(){return leftRightTarget;}
-
+    public void updateExtensionTarget(){
+        slideMotorRight.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        slideMotorLeft.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        slideMotorRight.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        slideMotorLeft.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+    }
     public void setExtensionTarget(int target){extensionTarget = target;}
 
     public void TelemetryTesting(MultipleTelemetry tele){

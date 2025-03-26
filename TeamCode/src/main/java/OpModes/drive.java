@@ -45,15 +45,15 @@ public void runOpMode() throws InterruptedException {
         double deflator = gamepad2.left_bumper ? .5 : 1;
 
         //Intake
-        if (gamepad1.x) {
+        if (gamepad1.a) {
             intake.clawDown();
-        } else if (gamepad1.y) {
+        } else if (gamepad1.b) {
             intake.clawTransfer();
         }
 
-        if (gamepad1.b) {
+        if (gamepad1.y) {
             intake.clawClose();
-        } else if (gamepad1.a) {
+        } else if (gamepad1.x) {
             intake.clawOpen();
         } else if (gamepad1.dpad_up) {
             intake.clawCloseTight();
@@ -67,18 +67,14 @@ public void runOpMode() throws InterruptedException {
             intake.turnClaw(.23);
         }
 
-        intake.sliding(gamepad1.right_trigger > 0, gamepad1.right_trigger);
-        intake.sliding(gamepad1.left_trigger > 0, -1*gamepad1.left_trigger);
-
-        intake.runTo(intakeExtendTarget, intake.getMotorPos(), .3);
-
-        if (gamepad1.right_bumper) {
-            intakeExtendTarget = 40;
-            intake.automatic();
+        if (gamepad1.right_trigger > 0) {
+            intake.sliding(gamepad1.right_trigger > 0, 1 * gamepad1.right_trigger);
         }
-
-
-
+        else if (gamepad1.left_trigger > 0) {
+            intake.sliding(gamepad1.left_trigger > 0, -1 * gamepad1.left_trigger);
+        } else {
+            intake.sliding(false, 0);
+        }
 
         //Outtake
 
@@ -107,6 +103,8 @@ public void runOpMode() throws InterruptedException {
 
         if (gamepad2.b) {outtake.turnClaw(.472);}
         else if (gamepad2.x) {outtake.turnClaw(.123);}
+
+        if (gamepad2.right_bumper) {outtake.updateExtensionTarget();}
 
 
         telemetry.addLine(String.valueOf(outtake.getTwist()));
