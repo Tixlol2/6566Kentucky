@@ -23,7 +23,7 @@ int intakeExtendTarget = 0;
 @Override
 public void runOpMode() throws InterruptedException {
 
-    follower = new Follower(hardwareMap, FConstants.class, LConstants.class);
+    follower = new Follower(hardwareMap);
     intake = new IntakeSubsystem(hardwareMap);
     outtake = new OuttakeSubsystem(hardwareMap);
 
