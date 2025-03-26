@@ -105,7 +105,7 @@ public class Auton extends OpMode {
         outtake = new OuttakeSubsystem(hardwareMap);
         pathTimer = new Timer();
         Constants.setConstants(FConstants.class, LConstants.class);
-        follower = new Follower(hardwareMap,FConstants.class,LConstants.class);
+        follower = new Follower(hardwareMap);
         follower.setStartingPose(startPose);
         buildPaths();
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
