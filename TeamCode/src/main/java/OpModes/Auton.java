@@ -21,9 +21,9 @@ public class Auton extends OpMode {
     private final Pose startPose = new Pose(9.5, 48, Math.toRadians(180));  // Starting position
     private final Pose scorePose = new Pose(36, 64, Math.toRadians(180)); // Scoring position
 
-    private final Pose pickup1Pose = new Pose(37, 121, Math.toRadians(0)); // First sample pickup
-    private final Pose pickup2Pose = new Pose(43, 130, Math.toRadians(0)); // Second sample pickup
-    private final Pose pickup3Pose = new Pose(49, 135, Math.toRadians(0)); // Third sample pickup
+//    private final Pose pickup1Pose = new Pose(37, 121, Math.toRadians(0)); // First sample pickup
+//    private final Pose pickup2Pose = new Pose(43, 130, Math.toRadians(0)); // Second sample pickup
+//    private final Pose pickup3Pose = new Pose(49, 135, Math.toRadians(0)); // Third sample pickup
 
     private final Pose parkPose = new Pose(12, 24, Math.toRadians(90));    // Parking position
 
@@ -33,6 +33,15 @@ public class Auton extends OpMode {
     Follower follower;
 
     int pathState = 0;
+
+
+    //TODO: SET ALL OF THESE TO BE ACCURATE
+    double prepScoreArmPosition = .5;
+    double scoreArmPosition = .5;
+    double pickupArmPosition = .5;
+
+    double scoreClawPosition = .5;
+    double pickupClawPosition = .5;
 
     IntakeSubsystem intake;
     OuttakeSubsystem outtake;
@@ -68,33 +77,46 @@ public class Auton extends OpMode {
             case -1:
                 telemetry.addLine("Auton Has Finished! (Hopefully Successfully)");
             case 0:
-                follower.followPath(startToScore);
-                outtake.setTargetAngle(.5);
+                follower.followPath(startToScore, true);
+                outtake.setTargetAngle(prepScoreArmPosition);
                 setPathState(1);
                 break;
             case 1:
                 if(!follower.isBusy()){
                     //score
-
-                    outtake.clawOpen();
-                    follower.followPath(scoreToPark);
-                    setPathState(2);
+                    outtake.setTargetAngle(scoreArmPosition);
+                    if(pathTimer.getElapsedTime() > 200) {
+                        outtake.clawOpen();
+                        follower.followPath(scoreToPark, true);
+                        setPathState(2);
+                    }
                 }
             case 2:
-                //Set angle of lever to grab spec
+
+
                 if(!follower.isBusy()){
                     //grab 2nd specimen
 
                     outtake.clawClose();
-                    follower.followPath(parkToScore);
+                    follower.followPath(parkToScore, true);
                     setPathState(3);
+                } else {
+                    outtake.setTargetAngle(pickupArmPosition);
+                    outtake.turnClaw(pickupClawPosition);
                 }
             case 3:
                 //Set angle of lever to score spec
                 if(!follower.isBusy()){
                     //score
-                    follower.followPath(scoreToPark);
-                    setPathState(-1);
+                    outtake.setTargetAngle(scoreArmPosition);
+                    if(pathTimer.getElapsedTime() > 200) {
+                        outtake.clawOpen();
+                        follower.followPath(scoreToPark, true);
+                        setPathState(-1);
+                    }
+                } else {
+                    outtake.setTargetAngle(prepScoreArmPosition);
+                    outtake.turnClaw(scoreClawPosition);
                 }
         }
     }
@@ -110,7 +132,7 @@ public class Auton extends OpMode {
         outtake = new OuttakeSubsystem(hardwareMap);
         pathTimer = new Timer();
         Constants.setConstants(FConstants.class, LConstants.class);
-        follower = new Follower(hardwareMap);
+        follower = new Follower(hardwareMap, LConstants.class, FConstants.class);
         follower.setStartingPose(startPose);
         buildPaths();
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
